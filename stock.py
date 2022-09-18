@@ -47,9 +47,9 @@ def get_kine_data(code):
     params = {
         'symbol': code,
         'begin': int(round(time.time() * 1000)),
-        'period': 'day',
+        'period': 'week',
         'type': 'before',
-        'count': -5,
+        'count': -1,
         'indicator': 'kline,pe,pb,ps,pcf,market_capital,agt,ggt,balance'
     }
     response = get_response(url=kline_url, params=params, headers=headers)
@@ -60,12 +60,13 @@ def get_kine_data(code):
 # 获取指数一周的涨幅
 def get_week_data(code):
     json_data = get_kine_data(code)
-    precent_list = []
-    for item in json_data['data']['item']:
-        # item列表中第8个元素代表单日涨幅
-        precent_list.append(item[7])
-    # 返回一周涨幅
-    return round(sum(precent_list),2)
+    # precent_list = []
+    # for item in json_data['data']['item']:
+    #     # item列表中第8个元素代表涨幅
+    #     precent_list.append(item[7])
+    # # 返回一周涨幅
+    # return round(sum(precent_list),2)
+    return json_data['data']['item'][0][7]
 
 
 # 获取字典中指数的一周涨幅
